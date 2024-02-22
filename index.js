@@ -291,7 +291,6 @@ exports.handler = async (event) => {
                 advanceTurn(game); // This should include saving the updated game state and notifying players
             }
         }
-        console.log(game);
         await saveGameState(gameId, game);
         await notifyAllPlayers(gameId, game);
         
@@ -325,7 +324,7 @@ async function saveGameState(gameId, game) {
         ExpressionAttributeValues: {
             ":p": game.players,
             ":bS": game.bettingStarted,
-            "mRA": game.minimumRaiseAmount,
+            ":mRA": game.minimumRaiseAmount,
             ":pot": game.pot,
             ":gs": game.gameStage,
             ":ct": game.currentTurn,
