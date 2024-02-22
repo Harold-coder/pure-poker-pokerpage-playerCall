@@ -291,6 +291,7 @@ exports.handler = async (event) => {
                 advanceTurn(game); // This should include saving the updated game state and notifying players
             }
         }
+        console.log(game);
         await saveGameState(gameId, game);
         await notifyAllPlayers(gameId, game);
         
@@ -336,7 +337,6 @@ async function saveGameState(gameId, game) {
     };
     await dynamoDb.update(params).promise();
 }
-
 
 async function notifyAllPlayers(gameId, game) {
     // Retrieve all connection IDs for this game from the connections table
