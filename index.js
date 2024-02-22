@@ -351,5 +351,5 @@ async function notifyAllPlayers(gameId, game) {
             }) 
         }).promise();
     });
-    await Promise.all(postCalls);
+    await Promise.all(postCalls); // hello
 }
