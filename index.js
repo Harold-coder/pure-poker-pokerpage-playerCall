@@ -306,7 +306,14 @@ async function notifyAllPlayers(gameId, game) {
     // Retrieve all connection IDs for this game from the connections table
     const connectionData = await dynamoDb.scan({ TableName: connectionsTableName, FilterExpression: "gameId = :gameId", ExpressionAttributeValues: { ":gameId": gameId } }).promise();
     const postCalls = connectionData.Items.map(async ({ connectionId }) => {
-        await apiGatewayManagementApi.postToConnection({ ConnectionId: connectionId, Data: JSON.stringify(game), action: "playerCall", statusCode: 200 }).promise();
+        await apiGatewayManagementApi.postToConnection({ 
+            ConnectionId: connectionId,
+             Data: JSON.stringify({
+                game: game,
+                action: "playerCall",
+                statusCode: 200
+            }) 
+        }).promise();
     });
     await Promise.all(postCalls);
 }
