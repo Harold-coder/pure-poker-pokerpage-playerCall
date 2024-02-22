@@ -219,7 +219,8 @@ function advanceGameStage(game) {
 exports.handler = async (event) => {
     const { gameId, playerId } = JSON.parse(event.body);
     const connectionId = event.requestContext.connectionId;
-
+    console.log(gameId);
+    console.log(playerId)
     try {
         const game = await getGameState(gameId);
         if (!game) {
