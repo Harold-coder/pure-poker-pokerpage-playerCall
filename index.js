@@ -324,7 +324,7 @@ async function saveGameState(gameId, game) {
         ExpressionAttributeValues: {
             ":p": game.players,
             ":bS": game.bettingStarted,
-            ":mRA": game.minimumRaiseAmount,
+            ":mRA": game.minaiseAmount,
             ":pot": game.pot,
             ":gs": game.gameStage,
             ":ct": game.currentTurn,
