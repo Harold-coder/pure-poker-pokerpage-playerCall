@@ -185,6 +185,42 @@ function findFirstActivePlayer(game) {
     return -1;
 }
 
+function allPlayersHaveActed(game) {
+    const isInitialRound = game.gameStage === GAME_STAGES.PRE_FLOP;
+
+    const activePlayers = game.players.filter(player => player.inHand);
+
+    // Check if all active players have matched the highest bet or are all-in
+    const allMatchedOrAllIn = activePlayers.every(player =>
+        player.chips === 0 ||
+        player.bet === game.highestBet
+    );
+
+    if (isInitialRound) {
+        const bigBlindIndex = (game.smallBlindIndex + 1) % game.players.length;
+        const bigBlindPlayer = game.players[bigBlindIndex];
+
+        // Check if the big blind has had the opportunity to act
+        const bigBlindHadOpportunityToAct = bigBlindPlayer && (bigBlindPlayer.hasActed || bigBlindPlayer.bet !== game.highestBet);
+
+        // For the initial round, all players must have matched the highest bet or be all-in,
+        // and the big blind must have had the opportunity to act
+        return allMatchedOrAllIn && bigBlindHadOpportunityToAct;
+    } else {
+        // For subsequent rounds, check if betting has started
+        if (game.bettingStarted) {
+            // If betting has started, all players must have matched the highest bet or be all-in
+            return allMatchedOrAllIn;
+        } else {
+            // If betting hasn't started, check if all players have acted (checked or folded)
+            return game.players.every(player =>
+                !player.inHand ||
+                player.hasActed
+            );
+        }
+    }
+}
+
 function advanceGameStage(game) {
     game.players.forEach(player => {
         player.bet = 0;
