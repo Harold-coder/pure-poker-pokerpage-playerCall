@@ -8,6 +8,7 @@ const connectionsTableName = process.env.CONNECTIONS_TABLE;
 const apiGatewayManagementApi = new AWS.ApiGatewayManagementApi({
     endpoint: process.env.WEBSOCKET_ENDPOINT
 });
+console.log("WebSocket Endpoint:", process.env.WEBSOCKET_ENDPOINT);
 
 const GAME_STAGES = {
     PRE_DEALING: 'preDealing',
